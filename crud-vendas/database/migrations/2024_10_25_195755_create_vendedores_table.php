@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nome');
             $table->string('cpf', 11);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('loja_id')->references('id')->on('lojas');
         });

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('cor', 100);
             $table->decimal('preco', 8, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

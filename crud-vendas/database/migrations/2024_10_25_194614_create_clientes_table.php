@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('sexo', 1);
             $table->string('email');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

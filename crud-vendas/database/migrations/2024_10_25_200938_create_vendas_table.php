@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('forma_pagamento');
             $table->longText('observacao')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->foreign('loja_id')->references('id')->on('lojas');
