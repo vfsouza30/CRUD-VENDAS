@@ -20,12 +20,12 @@
                             @endif
                         @endforeach
                         <td>
-                            <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editClientModal{{ $row['id'] }}">Editar</a>
-                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteClientModal{{ $row['id'] }}">Excluir</button>
+                            <a href="{{ route($routeEdit, $row['id']) }}" class="btn btn-primary btn-sm">Editar</a>
+                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $row['id'] }}">Excluir</button>
                         </td>
                     </tr>
-                    @include('components.modal-delete')
-                    @include('components.cliente.modal-clientes-editar')
+                    @include('components.modal-delete', ['route' => $routeDestroy ])
+                    
                 @endforeach
             </tbody>
         </table>

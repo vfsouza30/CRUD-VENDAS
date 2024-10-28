@@ -15,6 +15,11 @@ class ClienteController extends Controller
         return view('cliente.index',['title' => 'Clientes', 'clients' => $clients->toArray()]);
     }
 
+    public function create()
+    {
+        return view('cliente.create', ['title' => 'Novo Cliente']);
+    }
+
     public function store(Request $request)
     {
         
@@ -39,6 +44,12 @@ class ClienteController extends Controller
         return redirect()->route('cliente.index')->with('success', 'Cliente criado com sucesso!');
     }
 
+    public function edit(string $id)
+    {
+        $client = Cliente::find($id);
+        return view('cliente.edit', ['title' => 'Editar Cliente', 'client' => $client]);
+    }
+
     public function update(Request $request, Cliente $cliente)
     {
         $rules = [
@@ -59,7 +70,7 @@ class ClienteController extends Controller
 
         $cliente->update($validatedData);
 
-        return redirect()->route('cliente.index')>with('success', 'Cliente atualizado com sucesso!');
+        return redirect()->route('cliente.index')->with('success', 'Cliente atualizado com sucesso!');
     }
     public function destroy(Cliente $cliente)
     {
