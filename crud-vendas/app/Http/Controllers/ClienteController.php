@@ -7,75 +7,64 @@ use App\Models\Cliente;
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $clientes = Cliente::all();
-
-        return view('cliente.index',['title' => 'Clientes', 'client' => $clientes]);
+        $clients = Cliente::all()->makeHidden(['deleted_at']);
+        
+        return view('cliente.index',['title' => 'Clientes', 'clients' => $clients->toArray()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $regras = [
+        
+        $rules = [
             'nome' => 'required',
-            'cpf' => 'required|min:11|max:11',
-            'sexo' => 'required',
-            'email' => 'required'
+            'cpf' => 'required|digits:11',
+            'sexo' => 'required|in:M,F',
+            'email' => 'required|email'
         ];
 
         $feedbacks = [
             'nome' => 'O campo nome precisa ser preenchido',
-            'cpf' =>'O campo dever ser preenchido com 11 caracteres numerais',
+            'cpf' =>'O campo cpf dever ser preenchido com 11 caracteres numerais',
             'sexo' => 'O campo sexo precisa ser preenchido',
             'email' => 'o campo e-mail precisa ser preenchido',
         ];
 
-        $request->validate($regras, $feedbacks);
+        $validatedData = $request->validate($rules, $feedbacks);
 
-        Cliente::create($request->all());
+        Cliente::create($validatedData);
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('cliente.index')->with('success', 'Cliente criado com sucesso!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Cliente $cliente)
     {
-        $regras = [
+        $rules = [
             'nome' => 'required',
-            'cpf' => 'required|min:11|max:11',
-            'sexo' => 'required',
-            'email' => 'required'
+            'cpf' => 'required|digits:11',
+            'sexo' => 'required|in:M,F',
+            'email' => 'required|email'
         ];
 
         $feedbacks = [
             'nome' => 'O campo nome precisa ser preenchido',
-            'cpf' =>'O campo dever ser preenchido com 11 caracteres numerais',
+            'cpf' =>'O campo cpf dever ser preenchido com 11 caracteres numerais',
             'sexo' => 'O campo sexo precisa ser preenchido',
             'email' => 'o campo e-mail precisa ser preenchido',
         ];
 
-        $request->validate($regras, $feedbacks);
+        $validatedData = $request->validate($rules, $feedbacks);
 
-        Cliente::find($id)->update($request->all());
+        $cliente->update($validatedData);
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('cliente.index')>with('success', 'Cliente atualizado com sucesso!');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Cliente $cliente)
     {
-        Cliente::find($id)->delete();
+        $cliente->delete();
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('cliente.index')->with('success', 'Cliente deletado com sucesso!');
     }
 }
