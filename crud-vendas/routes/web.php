@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LojaController;
 use App\Http\Controllers\VendedorController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\VendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,3 +55,11 @@ Route::post('/produtos', [ProdutoController::class, 'store'])->name('produto.sto
 Route::get('/produtos/{produto}', [ProdutoController::class, 'edit'])->name('produto.edit');
 Route::put('/produtos/{produto}', [ProdutoController::class, 'update'])->name('produto.update');
 Route::delete('/produtos/{produto}', [ProdutoController::class, 'destroy'])->name('produto.destroy');
+
+//Vendas
+Route::get('/vendas', [VendaController::class, 'index'])->name('venda.index');
+Route::get('/vendas/create', [VendaController::class, 'create'])->name('venda.create');
+Route::post('/vendas', [VendaController::class, 'store'])->name('venda.store');
+Route::get('/vendas/{venda}', [VendaController::class, 'edit'])->name('venda.edit');
+Route::put('/vendas/{venda}', [VendaController::class, 'update'])->name('venda.update');
+Route::delete('/vendas/{venda}', [VendaController::class, 'destroy'])->name('venda.destroy');

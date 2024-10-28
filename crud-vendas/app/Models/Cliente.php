@@ -10,6 +10,8 @@ class Cliente extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'clientes';
+
     protected $fillable = [
         'nome',
         'cpf',

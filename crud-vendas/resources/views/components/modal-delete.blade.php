@@ -11,7 +11,7 @@
         <form id="deleteForm{{ $row['id'] }}" action="{{ route($routeDestroy, $row['id']) }}" method="post">
           @csrf
           @method('DELETE')
-          <p> Deseja excluir {{ $row['nome'] }} ?
+          <p> Deseja excluir {{ isset($row['nome']) ? $row['nome'] : $row['id'] }} ?
           </br>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
