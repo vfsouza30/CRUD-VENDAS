@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Models\Loja;
 
 class LojaController extends Controller
@@ -92,17 +91,4 @@ class LojaController extends Controller
         return redirect()->route('loja.index')->with('success', 'Loja deletada com sucesso!');
     }
 
-    public function consultaCep(Request $request)
-    {   
-        
-        $cep = $request->input('cep');
-
-        $response = Http::get("https://viacep.com.br/ws/{$cep}/json/");
-        
-        if ($response->successful() && !$response->json('erro')) {
-            return response()->json($response->json());
-        }
-
-        return response()->json(['message' => 'CEP não encontrado ou inválido.'], 404);
-    }
 }

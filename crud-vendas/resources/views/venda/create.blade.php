@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label for="loja">Loja</label>
-                    <select class="form-control" name="loja_id" id="loja_id">
+                    <select class="form-control" name="loja_id" id="loja_id" onchange="fetchSeller()">
                         <option value="D" {{ old('loja_id') == 'D' ? 'selected' : '' }}>Selecione uma loja</option>
                         @foreach ( $stores as $store)
                             <option value="{{ $store->id }}" {{ old('loja_id') == $store->id ? 'selected' : '' }}>{{ $store->nome }}</option>
@@ -36,12 +36,9 @@
                 <div class="form-group">
                     <label for="vendedor">Vendedor</label>
                     <select class="form-control" name="vendedor_id" id="vendedor_id">
-                        <option value="D" {{ old('vendedor_id') == 'D' ? 'selected' : '' }}>Selecione uma vendedor</option>
-                        @foreach ( $sellers as $seller)
-                            <option value="{{ $seller->id }}" {{ old('vendedor_id') == $seller->id ? 'selected' : '' }}>{{ $seller->nome }}</option>
-                        @endforeach
+                        <option value="D">Selecione um vendedor</option>
                     </select>
-                    @error('loja_id')
+                    @error('vendedor_id')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -98,47 +95,69 @@
 
 <script>
 
-    document.addEventListener('DOMContentLoaded', function () {
-    const checkboxes = document.querySelectorAll('input[name="produto_id[]"]');
-    const quantities = document.querySelectorAll('input[name="produto_quantidade[]"]');
+document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('input[name="produto_id[]"]');
+        const quantities = document.querySelectorAll('input[name="produto_quantidade[]"]');
 
-    document.getElementById('valor_total').value = '';
-     
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
-            const productId = checkbox.value;
-            const quantityField = document.querySelector(`input[name="produto_quantidade[]"][data-id="${productId}"]`);
-
-            if (checkbox.checked) {
-                quantityField.value = 1;
-            } else {
-                quantityField.value = '';
-            }
-
-            calculateTotal();
-        });
-    });
-
-    quantities.forEach(quantity => {
-        quantity.addEventListener('input', calculateTotal);
-    });
-
-    function calculateTotal() {
-        let total = 0;
-
+        document.getElementById('valor_total').value = '';
+        
         checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
+            checkbox.addEventListener('change', function () {
                 const productId = checkbox.value;
-                const productPriceField = document.querySelector(`input[name="produto_preco[]"][data-id="${productId}"]`);
-                const productPrice = parseFloat(productPriceField.value.replace(/\./g, '').replace(',', '.'));
-                const productQuantity = parseInt(document.querySelector(`input[name="produto_quantidade[]"][data-id="${productId}"]`).value) || 0;
+                const quantityField = document.querySelector(`input[name="produto_quantidade[]"][data-id="${productId}"]`);
 
-                total += productPrice * productQuantity;
-            }
+                if (checkbox.checked) {
+                    quantityField.value = 1;
+                } else {
+                    quantityField.value = '';
+                }
+
+                calculateTotal();
+            });
         });
 
+        quantities.forEach(quantity => {
+            quantity.addEventListener('input', calculateTotal);
+        });
 
-        document.getElementById('valor_total').value = total.toFixed(2).replace('.', ',');
+        function calculateTotal() {
+            let total = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const productId = checkbox.value;
+                    const productPriceField = document.querySelector(`input[name="produto_preco[]"][data-id="${productId}"]`);
+                    const productPrice = parseFloat(productPriceField.value.replace(/\./g, '').replace(',', '.'));
+                    const productQuantity = parseInt(document.querySelector(`input[name="produto_quantidade[]"][data-id="${productId}"]`).value) || 0;
+
+                    total += productPrice * productQuantity;
+                }
+            });
+
+
+            document.getElementById('valor_total').value = total.toFixed(2).replace('.', ',');
     }
 });
+
+function fetchSeller() {
+        const store = document.getElementById('loja_id').value;
+            const vendedorSelect = document.getElementById('vendedor_id');
+
+            if (store === "D") {
+                vendedorSelect.innerHTML = '<option value="D">Selecione um vendedor</option>';
+                return;
+            }
+            axios.post('http://127.0.0.1:8000/api/vendedores-loja', { store: store })
+                .then(response => {
+                    vendedorSelect.innerHTML = '<option value="D">Selecione um vendedor</option>';
+                    response.data.forEach(seller => {
+                        const option = document.createElement('option');
+                        option.value = seller.id;
+                        option.textContent = seller.nome;
+                        vendedorSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao buscar vendedores:', error));
+    }
+
 </script>

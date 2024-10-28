@@ -93,7 +93,7 @@ class VendaController extends Controller
         $sale = Venda::find($id);
         $clients = Cliente::select('id', 'nome')->get();
         $stores = Loja::select('id', 'nome')->get();
-        $sellers = Vendedor::select('id', 'nome')->get();
+        $sellers = Vendedor::select('id', 'nome')->where('loja_id', $sale->loja_id)->get();
         $products = Produto::select('id', 'nome', 'preco')->get();
         $productSales = VendaProduto::select('produto_id', 'quantidade')->where('venda_id', $id)->get();
 
@@ -145,11 +145,6 @@ class VendaController extends Controller
         $venda->forma_pagamento = $request->forma_pagamento;
         $venda->observacao = $request->observacao;
         $venda->save();
-
-        if ($request->valor_total != $request->valor_total_original) {
-            // Atualizar o valor total
-            $venda->valor_total = $request->valor_total;
-        }
         
         foreach ($request->produto_id as $index => $productId) {
             $productSale = VendaProduto::where('venda_id', $venda->id)->where('produto_id', $productId)->first();

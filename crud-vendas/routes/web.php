@@ -38,8 +38,6 @@ Route::get('/lojas/{loja}', [LojaController::class, 'edit'])->name('loja.edit');
 Route::put('/lojas/{loja}', [LojaController::class, 'update'])->name('loja.update');
 Route::delete('/lojas/{loja}', [LojaController::class, 'destroy'])->name('loja.destroy');
 
-Route::post('/consulta-cep', [LojaController::class, 'consultaCep']);
-
 //Vendedores
 Route::get('/vendedores', [VendedorController::class, 'index'])->name('vendedor.index');
 Route::get('/vendedores/create', [VendedorController::class, 'create'])->name('vendedor.create');

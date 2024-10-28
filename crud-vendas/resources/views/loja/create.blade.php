@@ -114,7 +114,7 @@
 
          document.getElementById('cep-error').innerText = '';
         
-        axios.post('/consulta-cep', { cep: cep })
+        axios.post('http://127.0.0.1:8000/api/consulta-cep', { cep: cep })
             .then(response => {
                 const data = response.data;
 
