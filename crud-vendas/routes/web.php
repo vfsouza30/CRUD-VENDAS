@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LojaController;
 use App\Http\Controllers\VendedorController;
+use App\Http\Controllers\ProdutoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,11 @@ Route::post('/vendedores', [VendedorController::class, 'store'])->name('vendedor
 Route::get('/vendedores/{vendedor}', [VendedorController::class, 'edit'])->name('vendedor.edit');
 Route::put('/vendedores/{vendedor}', [VendedorController::class, 'update'])->name('vendedor.update');
 Route::delete('/vendedores/{vendedor}', [VendedorController::class, 'destroy'])->name('vendedor.destroy');
+
+//Produtos
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('produto.index');
+Route::get('/produtos/create', [ProdutoController::class, 'create'])->name('produto.create');
+Route::post('/produtos', [ProdutoController::class, 'store'])->name('produto.store');
+Route::get('/produtos/{produto}', [ProdutoController::class, 'edit'])->name('produto.edit');
+Route::put('/produtos/{produto}', [ProdutoController::class, 'update'])->name('produto.update');
+Route::delete('/produtos/{produto}', [ProdutoController::class, 'destroy'])->name('produto.destroy');
