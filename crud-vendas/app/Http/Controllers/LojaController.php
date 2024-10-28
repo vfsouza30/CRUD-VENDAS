@@ -8,9 +8,7 @@ use App\Models\Loja;
 
 class LojaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
         $stores = Loja::all()->makeHidden(['deleted_at']);
@@ -18,17 +16,11 @@ class LojaController extends Controller
         return view('loja.index',['title' => 'Lojas', 'stores' => $stores->toArray()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('loja.create', ['title' => 'Nova Loja']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -58,26 +50,12 @@ class LojaController extends Controller
         return redirect()->route('loja.index')->with('success', 'Loja criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $store = Loja::find($id);
         return view('loja.edit', ['title' => 'Editar Loja', 'store' => $store]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Loja $loja)
     {
         $rules = [
@@ -107,9 +85,6 @@ class LojaController extends Controller
         return redirect()->route('loja.index')->with('success', 'Loja atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Loja $loja)
     {
         $loja->delete();

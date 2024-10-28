@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1 class="text-center">{{ $title }}</h1>
-            <form id="createClientForm" action={{ route('cliente.store') }} method="post">
+            <form id="createSellerForm" action={{ route('vendedor.store') }} method="post">
                 @csrf
                 
                 <div class="form-group">
@@ -13,7 +13,6 @@
                     @error('nome')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-                    </br>
                 </div>
 
                 <div class="form-group">
@@ -23,37 +22,27 @@
                     @error('cpf')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-                    </br>
                 </div>
 
                 <div class="form-group">
-                    <label for="sexo">Sexo</label>
-                    <select class="form-control" name="sexo" id="sexo">
-                        <option value="D" {{ old('sexo') == 'D' ? 'selected' : '' }}>Selecione um sexo</option>
-                        <option value="M" {{ old('sexo') == 'M' ? 'selected' : '' }}>Masculino</option>
-                        <option value="F" {{ old('sexo') == 'F' ? 'selected' : '' }}>Feminino</option>
+                    <label for="loja">Loja</label>
+                    <select class="form-control" name="loja_id" id="loja_id">
+                        <option value="D" {{ old('loja_id') == 'D' ? 'selected' : '' }}>Selecione uma loja</option>
+                        @foreach ( $stores as $store)
+                            <option value="{{ $store->id }}" {{ old('loja_id') == $store->id ? 'selected' : '' }}>{{ $store->nome }}</option>
+                        @endforeach
                     </select>
-                    @error('sexo')
+                    @error('loja_id')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-                    </br>
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" placeholder="Digite o email">
-                    @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                    </br>
+                <div class="modal-footer">
+                    <a href="{{ route('vendedor.index') }}" type="button" class="btn btn-secondary" >Voltar</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
-
-                    <div class="modal-footer">
-                        <a href="{{ route('cliente.index') }}" type="button" class="btn btn-secondary" >Voltar</a>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
             </form>
-        </div>        
+        </div>
     </div>
 </div>
 
