@@ -32,3 +32,5 @@ Passos necessários para executar o projeto:
     php artisan migrate
     php artisan serve
 ```
+
+5- Para ver as telas acesse crud-vendas/public/prints
