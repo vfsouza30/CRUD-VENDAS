@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vendedor;
 use App\Models\Loja;
+use App\Http\Requests\StoreVendedorRequest;
 
 class VendedorController extends Controller
 {
@@ -21,22 +22,10 @@ class VendedorController extends Controller
         return view('vendedor.create', ['title' => 'Novo Vendedor', 'stores' => $stores]);
     }
 
-    public function store(Request $request)
+    public function store(StoreVendedorRequest $request)
     {
-        $rules = [
-            'nome' => 'required',
-            'cpf' => 'required|digits:11',
-            'loja_id' => 'required|exists:lojas,id',
-        ];
 
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cpf' =>'O campo CPF dever ser preenchido com 11 caracteres numerais',
-            'loja_id.required' => 'O campo loja precisa ser preenchido',
-            'loja_id.exists' => 'A loja selecionada não é válida',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
 
         Vendedor::create($validatedData);
 
@@ -49,22 +38,10 @@ class VendedorController extends Controller
         return view('vendedor.edit', ['title' => 'Editar Vendedor', 'seller' => $seller, 'stores' => $stores]);
     }
 
-    public function update(Request $request, Vendedor $vendedor)
+    public function update(StoreVendedorRequest $request, Vendedor $vendedor)
     {
-        $rules = [
-            'nome' => 'required',
-            'cpf' => 'required|digits:11',
-            'loja_id' => 'required|exists:lojas,id',
-        ];
 
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cpf' =>'O campo CPF dever ser preenchido com 11 caracteres numerais',
-            'loja_id.required' => 'O campo loja precisa ser preenchido',
-            'loja_id.exists' => 'A loja selecionada não é válida',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
 
         $vendedor->update($validatedData);
 

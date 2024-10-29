@@ -10,6 +10,8 @@ use App\Models\Vendedor;
 use App\Models\Produto;
 use App\Models\VendaProduto;
 
+use App\Http\Requests\StoreVendaRequest;
+
 class VendaController extends Controller
 {
     
@@ -36,53 +38,26 @@ class VendaController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreVendaRequest $request)
     {
-        $request->merge([
-            'valor_total' => str_replace(['.', ','], ['', '.'], $request->valor_total)
-        ]);
 
-        $rules = [
-            'cliente_id' => 'required|exists:clientes,id',
-            'loja_id' => 'required|exists:lojas,id',
-            'vendedor_id' => 'required|exists:vendedores,id',
-            'produto_id' => 'required|exists:produtos,id',
-            'produto_quantidade' => 'required|array',
-            'produto_quantidade.*' => 'required|numeric|min:1',
-            'forma_pagamento' => 'required|in:dinheiro,credito,debito',
-            'valor_total' => 'required|numeric|min:1',
-            'observacao' => 'nullable|string',
-        ];
-
-        $feedbacks = [
-            'cliente_id' => 'O campo cliente precisa ser preenchido',
-            'loja_id' => 'O campo loja precisa ser preenchido',
-            'vendedor_id' => 'O campo vendedor precisa ser preenchido',
-            'produto_id' => 'É necessário pelo menos 1 produto',
-            'produto_quantidade' => 'É necessario pelo menos 1 quantidade do produto',
-            'forma_pagamento' => 'O campo Forma de Pagamento precisa ser preenchido',
-            'valor_total' => 'Valor Total inválido',
-        ];
-
-        $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
 
         $sale = new Venda();
-        $sale->cliente_id = $request->cliente_id;
-        $sale->loja_id = $request->loja_id;
-        $sale->vendedor_id = $request->vendedor_id;
-        $sale->valor_total = $request->valor_total;
-        $sale->forma_pagamento = $request->forma_pagamento;
-        $sale->observacao = $request->observacao;
+        $sale->cliente_id = $validatedData['cliente_id'];
+        $sale->loja_id = $validatedData['loja_id'];
+        $sale->vendedor_id = $validatedData['vendedor_id'];
+        $sale->valor_total = $validatedData['valor_total'];
+        $sale->forma_pagamento = $validatedData['forma_pagamento'];
+        $sale->observacao = $validatedData['observacao'];
         $sale->save();
 
-        $saleId = $sale->id;
-
-        foreach ($request->produto_id as $index => $productId) {
-            $productSale = new VendaProduto();
-            $productSale->venda_id = $saleId;
-            $productSale->produto_id = $productId;
-            $productSale->quantidade = $request->produto_quantidade[$index];
-            $productSale->save();
+        foreach ($validatedData['produto_id'] as $index => $produtoId) {
+            VendaProduto::create([
+                'venda_id' => $sale->id,
+                'produto_id' => $produtoId,
+                'quantidade' => $validatedData['produto_quantidade'][$index],
+            ]);
         }
 
         return redirect()->route('venda.index')->with('success', 'Venda criada com sucesso!');
@@ -108,45 +83,20 @@ class VendaController extends Controller
         ]);
     }
 
-    public function update(Request $request, Venda $venda)
+    public function update(StoreVendaRequest $request, Venda $venda)
     {
-        $request->merge([
-            'valor_total' => str_replace(['.', ','], ['', '.'], $request->valor_total)
-        ]);
 
-        $rules = [
-            'cliente_id' => 'required|exists:clientes,id',
-            'loja_id' => 'required|exists:lojas,id',
-            'vendedor_id' => 'required|exists:vendedores,id',
-            'produto_id' => 'required|exists:produtos,id',
-            'produto_quantidade' => 'required|array',
-            'produto_quantidade.*' => 'required|numeric|min:1',
-            'forma_pagamento' => 'required|in:dinheiro,credito,debito',
-            'valor_total' => 'required|numeric|min:1',
-            'observacao' => 'nullable|string',
-        ];
+        $validatedData = $request->validated();
 
-        $feedbacks = [
-            'cliente_id' => 'O campo cliente precisa ser preenchido',
-            'loja_id' => 'O campo loja precisa ser preenchido',
-            'vendedor_id' => 'O campo vendedor precisa ser preenchido',
-            'produto_id' => 'É necessário pelo menos 1 produto',
-            'produto_quantidade' => 'É necessario pelo menos 1 quantidade do produto',
-            'forma_pagamento' => 'O campo Forma de Pagamento precisa ser preenchido',
-            'valor_total' => 'Valor Total inválido',
-        ];
-
-        $request->validate($rules, $feedbacks);
-
-        $venda->cliente_id = $request->cliente_id;
-        $venda->loja_id = $request->loja_id;
-        $venda->vendedor_id = $request->vendedor_id;
-        $venda->valor_total = $request->valor_total;
-        $venda->forma_pagamento = $request->forma_pagamento;
-        $venda->observacao = $request->observacao;
+        $venda->cliente_id = $validatedData['cliente_id'];
+        $venda->loja_id = $validatedData['loja_id'];
+        $venda->vendedor_id = $validatedData['vendedor_id'];
+        $venda->valor_total = $validatedData['valor_total'];
+        $venda->forma_pagamento = $validatedData['forma_pagamento'];
+        $venda->observacao = $validatedData['observacao'];
         $venda->save();
         
-        foreach ($request->produto_id as $index => $productId) {
+        foreach ($validatedData['produto_id'] as $index => $productId) {
             $productSale = VendaProduto::where('venda_id', $venda->id)->where('produto_id', $productId)->first();
 
             if(!$productSale){

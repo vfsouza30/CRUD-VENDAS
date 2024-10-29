@@ -7,21 +7,28 @@ versões necessárias para o projeto:
 Passos necessários para executar o projeto:
 
 1- Clone o projeto usando:
-<code>git clone https://github.com/vfsouza30/CRUD-VENDAS.git</code>
-
+```
+    git clone https://github.com/vfsouza30/CRUD-VENDAS.git
+```
 2- Na pasta do projeto execute
-<code>composer install</code>
-<code> cp .env.example .env
-<code>php artisan key:generate</code>
 
+```
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+```
 3- Instale o MySQL e o XAMPP, e configure o .env com as credenciais do seu banco conforme o exemplo:
 
-<code>
+```
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT='PORT'
     DB_DATABASE='DATABASE'
     DB_USERNAME='USARNAME'
     DB_PASSWORD='PASSWORD'
-</code>
-<code>php artisan migrate</code>
+```
+4- Finalize com comandos do artisan para criar o banco e rodar o servidor
+```
+    php artisan migrate
+    php artisan serve
+```

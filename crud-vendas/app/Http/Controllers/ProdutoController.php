@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produto;
+use App\Http\Requests\StoreProdutoRequest;
 
 class ProdutoController extends Controller
 {
@@ -19,21 +20,10 @@ class ProdutoController extends Controller
         return view('produto.create', ['title' => 'Novo Produto']);
     }
 
-    public function store(Request $request)
+    public function store(StoreProdutoRequest $request)
     {
-        $rules = [
-            'nome' => 'required',
-            'cor' => 'required',
-            'preco' => 'required|regex:/^\d{1,3}(\.\d{3})*(,\d{2})?$/',
-        ];
 
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cor' =>'O campo cor dever ser preenchido com 14 caracteres numerais',
-            'preco' => 'O campo valor inválido',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
         $validatedData['preco'] = str_replace(['.', ','], ['', '.'], $validatedData['preco']);
 
         Produto::create($validatedData);
@@ -50,21 +40,10 @@ class ProdutoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Produto $produto)
+    public function update(StoreProdutoRequest $request, Produto $produto)
     {
-        $rules = [
-            'nome' => 'required',
-            'cor' => 'required',
-            'preco' => 'required|regex:/^\d{1,3}(\.\d{3})*(,\d{2})?$/',
-        ];
 
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cor' =>'O campo cor dever ser preenchido com 14 caracteres numerais',
-            'preco' => 'O campo valor inválido',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
         $validatedData['preco'] = str_replace(['.', ','], ['', '.'], $validatedData['preco']);
 
         $produto->update($validatedData);

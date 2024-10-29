@@ -50,9 +50,10 @@
                         @error('produto_id')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-                        <input type="text" class="form-control" name="produto_nome[]" id="produto_nome_{{ $product->id }}" value="{{ $product->nome }}" readonly="true">
-                        <input type="text" class="form-control" name="produto_preco[]" id="produto_preco_{{ $product->id }}" value="{{ number_format($product->preco, 2, ',', '.') }}" readonly="true" data-id="{{ $product->id }}">
-                        <input type="number" class="form-control" name="produto_quantidade[]" id="produto_quantidade_{{ $product->id }}" value="{{ old('produto_quantidade.' . $loop->index, 1) }}" min="1" data-id="{{ $product->id }}">
+                        <div class="d-flex align-items-center">                        
+                            <input type="number" class="form-control mr-2" name="produto_quantidade[]" id="produto_quantidade_{{ $product->id }}" value="{{ old('produto_quantidade.' . $loop->index, 1) }}" min="1" data-id="{{ $product->id }}">
+                            <input type="text" class="form-control" name="produto_preco[]" id="produto_preco_{{ $product->id }}" value="{{ number_format($product->preco, 2, ',', '.') }}" readonly="true" data-id="{{ $product->id }}">
+                        </div>
                     </div>
                 @endforeach
 

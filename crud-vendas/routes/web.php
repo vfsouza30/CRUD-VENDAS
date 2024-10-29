@@ -6,6 +6,7 @@ use App\Http\Controllers\LojaController;
 use App\Http\Controllers\VendedorController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\VendaController;
+use App\Http\Controllers\RelatorioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use App\Http\Controllers\VendaController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.default');
 });
 
 //Clientes
@@ -61,3 +62,6 @@ Route::post('/vendas', [VendaController::class, 'store'])->name('venda.store');
 Route::get('/vendas/{venda}', [VendaController::class, 'edit'])->name('venda.edit');
 Route::put('/vendas/{venda}', [VendaController::class, 'update'])->name('venda.update');
 Route::delete('/vendas/{venda}', [VendaController::class, 'destroy'])->name('venda.destroy');
+
+//Relatorios
+Route::get('/relatorios/vendas', [RelatorioController::class, 'salesReport'])->name('relatorio.vendas');

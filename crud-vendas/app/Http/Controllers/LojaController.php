@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Loja;
+use App\Http\Requests\StoreLojaRequest;
 
 class LojaController extends Controller
 {
@@ -20,29 +21,10 @@ class LojaController extends Controller
         return view('loja.create', ['title' => 'Nova Loja']);
     }
 
-    public function store(Request $request)
+    public function store(StoreLojaRequest $request)
     {
-        $rules = [
-            'nome' => 'required',
-            'cnpj' => 'required|digits:14',
-            'cep' => 'required|digits:8',
-            'endereco' => 'required',
-            'bairro' => 'required',
-            'cidade' => 'required',
-            'uf' => 'required|size:2|not_in:D',
-        ];
-
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cnpj' =>'O campo CNPJ dever ser preenchido com 14 caracteres numerais',
-            'cep' => 'O campo CEP precisa ser preenchido com 8 caracteres numerais',
-            'endereco' => 'O campo endereço precisa ser preenchido',
-            'bairro' => 'O campo bairro precisa ser preenchido',
-            'cidade' => 'O campo cidade precisa ser preenchido',
-            'uf' => 'UF invalida',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        
+        $validatedData = $request->validated();
 
         Loja::create($validatedData);
 
@@ -55,29 +37,10 @@ class LojaController extends Controller
         return view('loja.edit', ['title' => 'Editar Loja', 'store' => $store]);
     }
 
-    public function update(Request $request, Loja $loja)
+    public function update(StoreLojaRequest $request, Loja $loja)
     {
-        $rules = [
-            'nome' => 'required',
-            'cnpj' => 'required|digits:14',
-            'cep' => 'required|digits:8',
-            'endereco' => 'required',
-            'bairro' => 'required',
-            'cidade' => 'required',
-            'uf' => 'required|size:2|not_in:D',
-        ];
-
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cnpj' =>'O campo CNPJ dever ser preenchido com 14 caracteres numerais',
-            'cep' => 'O campo CEP precisa ser preenchido com 8 caracteres numerais',
-            'endereco' => 'O campo endereço precisa ser preenchido',
-            'bairro' => 'O campo bairro precisa ser preenchido',
-            'cidade' => 'O campo cidade precisa ser preenchido',
-            'uf' => 'UF invalida',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+       
+        $validatedData = $request->validated();
 
         $loja->update($validatedData);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Http\Requests\StoreClienteRequest;
 
 class ClienteController extends Controller
 {
@@ -20,24 +21,10 @@ class ClienteController extends Controller
         return view('cliente.create', ['title' => 'Novo Cliente']);
     }
 
-    public function store(Request $request)
+    public function store(StoreClienteRequest $request)
     {
-        
-        $rules = [
-            'nome' => 'required',
-            'cpf' => 'required|digits:11',
-            'sexo' => 'required|in:M,F',
-            'email' => 'required|email'
-        ];
 
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cpf' =>'O campo cpf dever ser preenchido com 11 caracteres numerais',
-            'sexo' => 'O campo sexo precisa ser preenchido',
-            'email' => 'o campo e-mail precisa ser preenchido',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
 
         Cliente::create($validatedData);
 
@@ -50,23 +37,10 @@ class ClienteController extends Controller
         return view('cliente.edit', ['title' => 'Editar Cliente', 'client' => $client]);
     }
 
-    public function update(Request $request, Cliente $cliente)
+    public function update(StoreClienteRequest $request, Cliente $cliente)
     {
-        $rules = [
-            'nome' => 'required',
-            'cpf' => 'required|digits:11',
-            'sexo' => 'required|in:M,F',
-            'email' => 'required|email'
-        ];
 
-        $feedbacks = [
-            'nome' => 'O campo nome precisa ser preenchido',
-            'cpf' =>'O campo cpf dever ser preenchido com 11 caracteres numerais',
-            'sexo' => 'O campo sexo precisa ser preenchido',
-            'email' => 'o campo e-mail precisa ser preenchido',
-        ];
-
-        $validatedData = $request->validate($rules, $feedbacks);
+        $validatedData = $request->validated();
 
         $cliente->update($validatedData);
 
