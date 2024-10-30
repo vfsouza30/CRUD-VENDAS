@@ -3,6 +3,7 @@
 versões necessárias para o projeto:
 1- PHP ^8.1
 2 - composer ^2.7
+3 - Npm 10.8.1
 
 Passos necessários para executar o projeto:
 
@@ -31,6 +32,7 @@ Passos necessários para executar o projeto:
 ```
     php artisan migrate
     php artisan serve
+    npm run dev
 ```
 
 5- Para ver as telas acesse crud-vendas/public/prints
