@@ -12,12 +12,12 @@ class ProdutoController extends Controller
     {
         $products = Produto::all()->makeHidden(['deleted_at']);
         
-        return view('produto.index',['title' => 'Produtos', 'products' => $products->toArray()]);
+        return view('pages.produto.index',['title' => 'Produtos', 'products' => $products->toArray()]);
     }
 
     public function create()
     {
-        return view('produto.create', ['title' => 'Novo Produto']);
+        return view('pagesproduto.create', ['title' => 'Novo Produto']);
     }
 
     public function store(StoreProdutoRequest $request)
@@ -34,7 +34,8 @@ class ProdutoController extends Controller
     public function edit(string $id)
     {
         $product = Produto::find($id);
-        return view('produto.edit', ['title' => 'Editar Produto', 'product' => $product]);
+
+        return view('pages.produto.edit', ['title' => 'Editar Produto', 'product' => $product]);
     }
 
     /**

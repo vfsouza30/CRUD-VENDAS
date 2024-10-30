@@ -57,4 +57,4 @@
     </div>
 </div>
 
-<script src="{{ asset('js/validaCpf.js') }}"></script>
+@vite(['resources/js/app.js'])

@@ -19,7 +19,7 @@ class VendaController extends Controller
     {
         $sales = Venda::all()->makeHidden(['deleted_at']);
         
-        return view('venda.index',['title' => 'Vendas', 'sales' => $sales->toArray()]);
+        return view('pages.venda.index',['title' => 'Vendas', 'sales' => $sales->toArray()]);
     }
 
     public function create()
@@ -29,7 +29,7 @@ class VendaController extends Controller
         $sellers = Vendedor::select('id', 'nome')->get();
         $products = Produto::select('id', 'nome', 'preco')->get();
 
-        return view('venda.create', [
+        return view('pages.venda.create', [
             'title' => 'Nova Venda',
             'clients' => $clients, 
             'stores' => $stores, 
@@ -53,6 +53,7 @@ class VendaController extends Controller
         $sale->save();
 
         foreach ($validatedData['produto_id'] as $index => $produtoId) {
+
             VendaProduto::create([
                 'venda_id' => $sale->id,
                 'produto_id' => $produtoId,
@@ -72,7 +73,7 @@ class VendaController extends Controller
         $products = Produto::select('id', 'nome', 'preco')->get();
         $productSales = VendaProduto::select('produto_id', 'quantidade')->where('venda_id', $id)->get();
 
-        return view('venda.edit', [
+        return view('pages.venda.edit', [
             'title' => 'Editar Venda',
             'sale' => $sale,
             'clients' => $clients, 
@@ -97,6 +98,7 @@ class VendaController extends Controller
         $venda->save();
         
         foreach ($validatedData['produto_id'] as $index => $productId) {
+            
             $productSale = VendaProduto::where('venda_id', $venda->id)->where('produto_id', $productId)->first();
 
             if(!$productSale){

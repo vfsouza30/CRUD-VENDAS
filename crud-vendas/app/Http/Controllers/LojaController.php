@@ -13,12 +13,12 @@ class LojaController extends Controller
     {
         $stores = Loja::all()->makeHidden(['deleted_at']);
         
-        return view('loja.index',['title' => 'Lojas', 'stores' => $stores->toArray()]);
+        return view('pages.loja.index',['title' => 'Lojas', 'stores' => $stores->toArray()]);
     }
 
     public function create()
     {
-        return view('loja.create', ['title' => 'Nova Loja']);
+        return view('pages.loja.create', ['title' => 'Nova Loja']);
     }
 
     public function store(StoreLojaRequest $request)
@@ -34,7 +34,8 @@ class LojaController extends Controller
     public function edit(string $id)
     {
         $store = Loja::find($id);
-        return view('loja.edit', ['title' => 'Editar Loja', 'store' => $store]);
+        
+        return view('pages.loja.edit', ['title' => 'Editar Loja', 'store' => $store]);
     }
 
     public function update(StoreLojaRequest $request, Loja $loja)

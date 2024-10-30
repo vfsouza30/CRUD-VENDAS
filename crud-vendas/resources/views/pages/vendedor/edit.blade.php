@@ -4,12 +4,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1 class="text-center">{{ $title }}</h1>
-            <form id="createSellerForm" action={{ route('vendedor.store') }} method="post">
+            <form id="editSellerForm" action={{ route('vendedor.update', $seller->id) }} method="post">
                 @csrf
-                
+                @method('PUT')
                 <div class="form-group">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" name="nome" id="nome" value="{{ old('nome') }}" placeholder="Digite o nome">
+                    <input type="text" class="form-control" name="nome" id="nome" value="{{ $seller->nome }}" placeholder="Digite o nome">
                     @error('nome')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -17,7 +17,7 @@
 
                 <div class="form-group">
                     <label for="cpf">CPF</label>
-                    <input type="text" class="form-control" name="cpf" id="cpf" value="{{ old('cpf') }}" placeholder="Digite o cpf">
+                    <input type="text" class="form-control" name="cpf" id="cpf" value="{{ $seller->cpf }}" placeholder="Digite o cpf">
                     <span id="cpf-error" style="color: red; display: none;">O CPF deve conter 11 números.</span>
                     @error('cpf')
                         <span class="text-danger">{{ $message }}</span>
@@ -29,7 +29,7 @@
                     <select class="form-control" name="loja_id" id="loja_id">
                         <option value="D" {{ old('loja_id') == 'D' ? 'selected' : '' }}>Selecione uma loja</option>
                         @foreach ( $stores as $store)
-                            <option value="{{ $store->id }}" {{ old('loja_id') == $store->id ? 'selected' : '' }}>{{ $store->nome }}</option>
+                            <option value="{{ $store->id }}" {{ $store->id == $seller->id ? 'selected' : '' }}>{{ $store->nome }}</option>
                         @endforeach
                     </select>
                     @error('loja_id')
@@ -46,4 +46,4 @@
     </div>
 </div>
 
-<script src="{{ asset('js/validaCpf.js') }}"></script>
+@vite(['resources/js/app.js'])

@@ -18,7 +18,7 @@ class RelatorioController extends Controller
     {
         $sales = $this->vendaService->getSalesReport($request);
 
-        return view('relatorio.vendas.index', [
+        return view('pages.relatorio.vendas.index', [
             'title' => 'Relatório de Vendas',
             'data' => $sales
         ]);

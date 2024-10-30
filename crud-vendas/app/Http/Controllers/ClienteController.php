@@ -13,12 +13,12 @@ class ClienteController extends Controller
     {
         $clients = Cliente::all()->makeHidden(['deleted_at']);
         
-        return view('cliente.index',['title' => 'Clientes', 'clients' => $clients->toArray()]);
+        return view('pages.cliente.index',['title' => 'Clientes', 'clients' => $clients->toArray()]);
     }
 
     public function create()
     {
-        return view('cliente.create', ['title' => 'Novo Cliente']);
+        return view('pages.cliente.create', ['title' => 'Novo Cliente']);
     }
 
     public function store(StoreClienteRequest $request)
@@ -34,7 +34,8 @@ class ClienteController extends Controller
     public function edit(string $id)
     {
         $client = Cliente::find($id);
-        return view('cliente.edit', ['title' => 'Editar Cliente', 'client' => $client]);
+        
+        return view('pages.cliente.edit', ['title' => 'Editar Cliente', 'client' => $client]);
     }
 
     public function update(StoreClienteRequest $request, Cliente $cliente)

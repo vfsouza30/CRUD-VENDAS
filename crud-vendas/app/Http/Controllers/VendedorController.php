@@ -13,13 +13,14 @@ class VendedorController extends Controller
     public function index()
     {
         $sellers = Vendedor::all()->makeHidden(['deleted_at']);
-        return view('vendedor.index', ['title' => 'Vendedores', 'sellers' => $sellers->toArray()]);
+
+        return view('pages.vendedor.index', ['title' => 'Vendedores', 'sellers' => $sellers->toArray()]);
     }
 
     public function create()
     {
         $stores = Loja::select('id', 'nome')->get();
-        return view('vendedor.create', ['title' => 'Novo Vendedor', 'stores' => $stores]);
+        return view('pages.vendedor.create', ['title' => 'Novo Vendedor', 'stores' => $stores]);
     }
 
     public function store(StoreVendedorRequest $request)
@@ -35,7 +36,8 @@ class VendedorController extends Controller
     {
         $seller = Vendedor::find($id);
         $stores = Loja::select('id', 'nome')->get();
-        return view('vendedor.edit', ['title' => 'Editar Vendedor', 'seller' => $seller, 'stores' => $stores]);
+
+        return view('pages.vendedor.edit', ['title' => 'Editar Vendedor', 'seller' => $seller, 'stores' => $stores]);
     }
 
     public function update(StoreVendedorRequest $request, Vendedor $vendedor)
@@ -51,6 +53,7 @@ class VendedorController extends Controller
     public function destroy(Vendedor $vendedor)
     {
         $vendedor->delete();
+        
         return redirect()->route('vendedor.index')->with('success', 'Vendedor excluído com sucesso!');
     }
 }

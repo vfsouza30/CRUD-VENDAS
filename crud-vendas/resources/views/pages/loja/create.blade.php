@@ -105,26 +105,4 @@
     </div>
 </div>
 
-<script src="{{ asset('js/validaCnpj.js') }}"></script>
-<script src="{{ asset('js/validaCep.js') }}"></script>
-<script>
-
-    function fetchAddress() {
-        const cep = document.getElementById('cep').value;
-
-         document.getElementById('cep-error').innerText = '';
-        
-        axios.post('http://127.0.0.1:8000/api/consulta-cep', { cep: cep })
-            .then(response => {
-                const data = response.data;
-
-                document.getElementById('endereco').value = data.logradouro || '';
-                document.getElementById('bairro').value = data.bairro || '';
-                document.getElementById('cidade').value = data.localidade || '';
-            })
-            .catch(error => {
-                console.error(error);
-                document.getElementById('cep-error').innerText = 'CEP não encontrado ou inválido.';
-            });
-    }
-</script>
+@vite(['resources/js/app.js'])
