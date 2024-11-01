@@ -17,6 +17,8 @@ Passos necessários para executar o projeto:
     composer install
     cp .env.example .env
     php artisan key:generate
+    npm install --save-dev vite
+    Adicionar no .env no final do arquivo VITE_APP_URL=http://127.0.0.1:"sua porta habilitada pelo artisan"
 ```
 3- Instale o MySQL e o XAMPP, e configure o .env com as credenciais do seu banco conforme o exemplo:
 

@@ -1,22 +1,24 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\ClienteRepository;
 
 class StoreClienteRequest extends FormRequest
 {
-    
+    protected $clienteRepository;
+
+    public function __construct(ClienteRepository $clienteRepository)
+    {
+        parent::__construct();
+        $this->clienteRepository = $clienteRepository;
+    }
+
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -27,6 +29,18 @@ class StoreClienteRequest extends FormRequest
         ];
     }
 
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->cpfExists()) {
+                $validator->errors()->add('cpf', 'O CPF já existe na tabela clientes.');
+            }
+            if ($this->emailExists()) {
+                $validator->errors()->add('email', 'O Email já existe na tabela clientes.');
+            }
+        });
+    }
+
     public function messages()
     {
         return [
@@ -35,5 +49,15 @@ class StoreClienteRequest extends FormRequest
             'sexo' => 'O campo sexo precisa ser preenchido',
             'email' => 'o campo e-mail precisa ser preenchido',
         ];
+    }
+
+    protected function cpfExists()
+    {
+        return $this->clienteRepository->cpfExists($this->cpf);
+    }
+
+    protected function emailExists()
+    {
+        return $this->clienteRepository->emailExists($this->email);
     }
 }

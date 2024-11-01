@@ -6,9 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProdutoRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
+
     public function authorize(): bool
     {
         return true;
@@ -33,7 +32,8 @@ class StoreProdutoRequest extends FormRequest
         return [
             'nome' => 'O campo nome precisa ser preenchido',
             'cor' =>'O campo cor dever ser preenchido com 14 caracteres numerais',
-            'preco' => 'O campo valor inválido',
+            'preco' => 'O campo preço inválido',
         ];
     }
+    
 }

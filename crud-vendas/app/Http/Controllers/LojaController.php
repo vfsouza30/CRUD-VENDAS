@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Loja;
 use App\Http\Requests\StoreLojaRequest;
+use App\Http\Requests\UpdateLojaRequest;
 
 class LojaController extends Controller
 {
@@ -38,7 +39,7 @@ class LojaController extends Controller
         return view('pages.loja.edit', ['title' => 'Editar Loja', 'store' => $store]);
     }
 
-    public function update(StoreLojaRequest $request, Loja $loja)
+    public function update(UpdateLojaRequest $request, Loja $loja)
     {
        
         $validatedData = $request->validated();

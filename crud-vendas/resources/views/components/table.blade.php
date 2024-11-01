@@ -1,3 +1,4 @@
+@extends('layouts.menu')
 @if(isset($data) && count($data) > 0)
     <div class="table-responsive">
         <table class="table table-striped table-bordered">

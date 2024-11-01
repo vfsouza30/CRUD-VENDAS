@@ -17,7 +17,7 @@
 
                 <label for="cpf">CPF</label>
                 <input type="text" class="form-control" name="cpf" id="cpf" value="{{ $client->cpf }}" placeholder="Digite o cpf">
-                <span id="cpf-error-edit" style="color: red; display: none;">O CPF deve conter 11 números.</span>
+                <span id="cpf-error" style="color: red; display: none;"></span>
                 @error('cpf')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror

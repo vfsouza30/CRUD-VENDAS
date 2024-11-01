@@ -3,12 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\VendedorRepository;
 
 class StoreVendedorRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+    protected $vendedorRepository;
+
+    public function __construct(VendedorRepository $vendedorRepository)
+    {
+        
+        $this->vendedorRepository = $vendedorRepository;
+    }
+
     public function authorize(): bool
     {
         return true;
@@ -21,11 +27,24 @@ class StoreVendedorRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $vendedorId = $this->id;
+
         return [
             'nome' => 'required',
             'cpf' => 'required|digits:11',
             'loja_id' => 'required|exists:lojas,id',
+            
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->cpfExists()) {
+                $validator->errors()->add('cpf', 'O CPF já existe na tabela vendedores.');
+            }
+        });
     }
 
     public function messages()
@@ -36,5 +55,10 @@ class StoreVendedorRequest extends FormRequest
             'loja_id.required' => 'O campo loja precisa ser preenchido',
             'loja_id.exists' => 'A loja selecionada não é válida',
         ];
+    }
+
+    protected function cpfExists()
+    {
+        return $this->vendedorRepository->cpfExists($this->cpf);
     }
 }

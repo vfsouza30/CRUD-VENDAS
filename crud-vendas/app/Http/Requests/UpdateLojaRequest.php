@@ -3,18 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Repositories\LojaRepository;
 
-class StoreLojaRequest extends FormRequest
+class UpdateLojaRequest extends FormRequest
 {
-    protected $lojaRepository;
-
-    public function __construct(LojaRepository $lojaRepository)
-    {
-        parent::__construct();
-        $this->lojaRepository = $lojaRepository;
-    }
-
+   
     public function authorize(): bool
     {
         return true;
@@ -23,9 +15,15 @@ class StoreLojaRequest extends FormRequest
 
     public function rules(): array
     {
+        $store = $this->route('loja')->id;
+
         return [
             'nome' => 'required',
-            'cnpj' => 'required|digits:14',
+            'cnpj' => [
+                'required',
+                'digits:14',
+                'unique:lojas,cnpj,' . $store . 'id',   
+            ],
             'cep' => 'required|digits:8',
             'endereco' => 'required',
             'bairro' => 'required',
@@ -34,20 +32,12 @@ class StoreLojaRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            if ($this->cnpjExists()) {
-                $validator->errors()->add('cnpj', 'O CNPJ já existe na tabela Lojas.');
-            }
-        });
-    }
-
     public function messages()
     {
         return [
             'nome' => 'O campo nome precisa ser preenchido',
-            'cnpj' =>'O campo CNPJ dever ser preenchido com 14 caracteres numerais',
+            'cnpj.required' =>'O campo CNPJ dever ser preenchido com 14 caracteres numerais',
+            'cnpj.unique' => 'O CNPJ já existe na tabela Loja.',
             'cep' => 'O campo CEP precisa ser preenchido com 8 caracteres numerais',
             'endereco' => 'O campo endereço precisa ser preenchido',
             'bairro' => 'O campo bairro precisa ser preenchido',
@@ -56,8 +46,4 @@ class StoreLojaRequest extends FormRequest
         ];
     }
 
-    protected function cnpjExists()
-    {
-        return $this->lojaRepository->cnpjExists($this->cnpj);
-    }
 }

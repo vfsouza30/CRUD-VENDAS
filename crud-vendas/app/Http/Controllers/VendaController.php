@@ -11,15 +11,22 @@ use App\Models\Produto;
 use App\Models\VendaProduto;
 
 use App\Http\Requests\StoreVendaRequest;
+use App\Repositories\VendaRepository;
 
 class VendaController extends Controller
 {
+    protected $vendaRepository;
+
+    public function __construct()
+    {
+        $this->vendaRepository = new VendaRepository();
+    }
     
     public function index()
     {
-        $sales = Venda::all()->makeHidden(['deleted_at']);
+        $sales = $this->vendaRepository->getAllSales();
         
-        return view('pages.venda.index',['title' => 'Vendas', 'sales' => $sales->toArray()]);
+        return view('pages.venda.index',['title' => 'Vendas', 'sales' => $sales]);
     }
 
     public function create()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Http\Requests\StoreClienteRequest;
+use App\Http\Requests\UpdateClienteRequest;
 
 class ClienteController extends Controller
 {
@@ -38,7 +39,7 @@ class ClienteController extends Controller
         return view('pages.cliente.edit', ['title' => 'Editar Cliente', 'client' => $client]);
     }
 
-    public function update(StoreClienteRequest $request, Cliente $cliente)
+    public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
 
         $validatedData = $request->validated();

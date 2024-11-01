@@ -17,7 +17,7 @@ class ProdutoController extends Controller
 
     public function create()
     {
-        return view('pagesproduto.create', ['title' => 'Novo Produto']);
+        return view('pages.produto.create', ['title' => 'Novo Produto']);
     }
 
     public function store(StoreProdutoRequest $request)

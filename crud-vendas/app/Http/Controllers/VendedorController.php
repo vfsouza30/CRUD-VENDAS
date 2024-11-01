@@ -6,15 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Vendedor;
 use App\Models\Loja;
 use App\Http\Requests\StoreVendedorRequest;
+use App\Http\Requests\UpdateVendedorRequest;
+use App\Repositories\VendedorRepository;
 
 class VendedorController extends Controller
 {
+    protected $vendedorRepository;
 
+    public function __construct()
+    {
+        $this->vendedorRepository = new VendedorRepository();
+    }
     public function index()
     {
-        $sellers = Vendedor::all()->makeHidden(['deleted_at']);
-
-        return view('pages.vendedor.index', ['title' => 'Vendedores', 'sellers' => $sellers->toArray()]);
+        $sellers = $this->vendedorRepository->getAllSellers();
+        return view('pages.vendedor.index', ['title' => 'Vendedores', 'sellers' => $sellers]);
     }
 
     public function create()
@@ -40,7 +46,7 @@ class VendedorController extends Controller
         return view('pages.vendedor.edit', ['title' => 'Editar Vendedor', 'seller' => $seller, 'stores' => $stores]);
     }
 
-    public function update(StoreVendedorRequest $request, Vendedor $vendedor)
+    public function update(UpdateVendedorRequest $request, Vendedor $vendedor)
     {
 
         $validatedData = $request->validated();

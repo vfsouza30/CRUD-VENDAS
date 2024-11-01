@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="cnpj">CNPJ</label>
                     <input type="text" class="form-control" name="cnpj" id="cnpj" value="{{ old('cnpj') }}" placeholder="Digite o CNPJ">
-                    <span id="cnpj-error" style="color: red; display: none;">O CNPJ deve conter 14 números.</span>
+                    <span id="cnpj-error" style="color: red; display: none;"></span>
                     @error('cnpj')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -27,12 +27,11 @@
                 <div class="form-group">
                     <label for="cep">CEP</label>
                     <input type="text" class="form-control" name="cep" id="cep" value="{{ old('cep') }}" placeholder="Digite o CEP">
-                    <span id="cep-error" style="color: red; display: none;">O CEP deve conter 8 números.</span>
+                    <span class="text-danger" id="cep-error"></span>
                     @error('cep')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm mt-1" onclick="fetchAddress()">Consultar</a>
-                    <span class="text-danger" id="cep-error"></span>
                 </div>
 
                 <div class="form-group">
