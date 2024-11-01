@@ -20,7 +20,7 @@ use App\Http\Controllers\RelatorioController;
 */
 
 Route::get('/', function () {
-    return view('layouts.default');
+    return view('pages.index.index');
 });
 
 //Clientes

@@ -38,3 +38,4 @@ Passos necessários para executar o projeto:
 ```
 
 5- Para ver as telas acesse crud-vendas/public/prints
+6- Lembre-se de rodar os comandos dentro da pasta crud-vendas
