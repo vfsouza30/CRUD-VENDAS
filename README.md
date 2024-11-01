@@ -4,6 +4,7 @@ versões necessárias para o projeto:
 1- PHP ^8.1
 2 - composer ^2.7
 3 - Npm 10.8.1
+4 - Node 22.3.0
 
 Passos necessários para executar o projeto:
 
