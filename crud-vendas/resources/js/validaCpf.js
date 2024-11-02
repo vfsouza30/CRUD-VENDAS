@@ -49,9 +49,13 @@ document.querySelectorAll('input[name="cpf"]').forEach(function(cpfInput) {
         if (errorMessage) {
             errorElement.style.display = 'block';
             errorElement.innerHTML = errorMessage;
+
         } else {
             errorElement.style.display = 'none';
             errorElement.innerHTML = ''; 
         }
+
+        var submitButton = document.querySelector('button[type="submit"].btn.btn-primary');
+        submitButton.disabled = errorMessage ? true : false;
     });
 });

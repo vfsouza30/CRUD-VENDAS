@@ -40,5 +40,8 @@ document.querySelectorAll('input[name="cnpj"]').forEach(function(cnpjInput) {
             errorElement.style.display = 'none';
             errorElement.innerHTML = ''; 
         }
+
+        var submitButton = document.querySelector('button[type="submit"].btn.btn-primary');
+        submitButton.disabled = errorMessage ? true : false;
     });
 });
